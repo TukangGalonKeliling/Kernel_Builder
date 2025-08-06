@@ -54,7 +54,7 @@ on:
         
 jobs:
   build-kernel-kernelsu-susfs:
-    name: build-kernel-${{ inputs.android_version }}-${{ inputs.kernel_version }}-${{ inputs.os_patch_level }}
+    name: build-kernel-${{ inputs.android_version }}-${{ inputs.kernel_version }}-${{ inputs.os_patch_level }}-[${{ inputs.kernelsu_variant }}]
     #Jika workflows stuck maka gunakan ubuntu-22.04
     runs-on: ubuntu-latest
     env:
@@ -129,17 +129,25 @@ jobs:
           
       - name: Set ccache
         run: |
+          if [ "${{ inputs.kernelsu_variant }}" == "KernelSU-Next" ]; then
+            BRANCH_NAME="NEXT"
+            echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+          elif [ "${{ inputs.kernelsu_variant }}" == "SukiSU-Ultra" ]; then
+            BRANCH_NAME="SukiSU"
+            echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+          fi
+          
           ccache --version
           ccache --max-size=3G
           ccache --set-config=compression=true
-          echo "CCACHE_DIR=$HOME/.ccache_${{ inputs.android_version }}-${{ inputs.kernel_version }}-${{ inputs.os_patch_level }}" >> $GITHUB_ENV
-          mkdir -p $HOME/.ccache_${{ inputs.android_version }}-${{ inputs.kernel_version }}-${{ inputs.os_patch_level }}
+          echo "CCACHE_DIR=$HOME/.ccache_${{ inputs.android_version }}-${{ inputs.kernel_version }}-${{ inputs.os_patch_level }}-$BRANCH_NAME" >> $GITHUB_ENV
+          mkdir -p $HOME/.ccache_${{ inputs.android_version }}-${{ inputs.kernel_version }}-${{ inputs.os_patch_level }}-$BRANCH_NAME
           
       - name: Restore ccache from cache
         uses: actions/cache@v4
         with:
           path: ${{ env.CCACHE_DIR }}
-          key: ccache-${{ runner.os }}-${{ inputs.android_version }}-${{ inputs.kernel_version }}-${{ inputs.os_patch_level }}
+          key: ccache-${{ runner.os }}-${{ inputs.android_version }}-${{ inputs.kernel_version }}-${{ inputs.os_patch_level }}-$BRANCH_NAME
           restore-keys: |
             ccache-
       
@@ -212,13 +220,9 @@ jobs:
           if [ "${{ inputs.kernelsu_variant }}" == "KernelSU-Next" ]; then
             echo "Adding KernelSU Next..."
             curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s next
-            BRANCH_NAME="NEXT"
-            echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
           elif [ "${{ inputs.kernelsu_variant }}" == "SukiSU-Ultra" ]; then
             echo "Adding KernelSU SukiSU..."
             curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s susfs-main
-            BRANCH_NAME="SukiSU"
-            echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
           fi
           
           # Copy SUSFS patches
@@ -555,9 +559,12 @@ jobs:
           [+] TMPFS XATTR + POSIX ACL Support
           ```
 
-          ```How_To_Flash_(AnyKernel3):
-          Use flashing software, such as [KernelFlasher](https://github.com/fatalcoder524/KernelFlasher/releases/download/v1.6.0/KernelFlasher_1.6.0.apk) or [HorizonKernelFlasher](https://github.com/libxzr/HorizonKernelFlasher/releases/download/v1.3/app-release.apk) for flashing the kernel (Give root access to the Application)
-          ```
+          How To Flash(AnyKernel3):
+          >Use flashing software, such as [KernelFlasher](https://github.com/fatalcoder524/KernelFlasher/releases/download/v1.6.0/KernelFlasher_1.6.0.apk) or [HorizonKernelFlasher](https://github.com/libxzr/HorizonKernelFlasher/releases/download/v1.3/app-release.apk) for flashing the kernel (Give root access to the Application)
+          EOF
+
+          cat >> release.txt << EOF
+          >Use flashing software, such as [KernelFlasher](https://github.com/fatalcoder524/KernelFlasher/releases/download/v1.6.0/KernelFlasher_1.6.0.apk) or [HorizonKernelFlasher](https://github.com/libxzr/HorizonKernelFlasher/releases/download/v1.3/app-release.apk) for flashing the kernel (Give root access to the Application)
           EOF
           
       - name: Upload to telegram
