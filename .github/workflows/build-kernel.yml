@@ -190,7 +190,7 @@ jobs:
           fi
       
           echo "Syncing repo..."
-          repo sync --optimized-fetch --force-sync --no-tags --no-clone-bundle -j4
+          repo sync --optimized-fetch -c --no-tags --no-clone-bundle -j$(nproc --all)
       
           echo "Cleaning old ABI exports..."
           rm -rf ./common/android/abi_gki_protected_exports_* || echo "No protected exports!"
