@@ -559,7 +559,7 @@ jobs:
           [+] TMPFS XATTR + POSIX ACL Support
           ```
 
-          >Use flashing software, such as [KernelFlasher](https://github.com/fatalcoder524/KernelFlasher/releases/download/v1.6.0/KernelFlasher_1.6.0.apk) or [HorizonKernelFlasher](https://github.com/libxzr/HorizonKernelFlasher/releases/download/v1.3/app-release.apk) for flashing the kernel (Give root access to the Application)
+          >Use flashing software, such as [KernelFlasher]\(https://github.com/fatalcoder524/KernelFlasher/releases/download/v1.6.0/KernelFlasher_1.6.0.apk\) or [HorizonKernelFlasher]\(https://github.com/libxzr/HorizonKernelFlasher/releases/download/v1.3/app-release.apk\) for flashing the kernel \(Give root access to the Application\)
           EOF
           
       - name: Upload to telegram
