@@ -562,7 +562,7 @@ jobs:
           ```
           EOF
 
-          cat > release.txt << EOF
+          cat >> release.txt << EOF
           📝 Features:
           >\[\+\] SUSFS ඞ $ESCAPED_SUSFS_VER
           >\[\+\] LZ4 v1\.10\.0 \(Optimization armv8a\)
