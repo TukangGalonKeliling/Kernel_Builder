@@ -542,6 +542,7 @@ jobs:
           echo "Packing files..."
           ESCAPED_KERNEL_VER=$(echo "${{ inputs.android_version }}-${{ inputs.kernel_version }}.${{ env.SUBLEVEL }}" | sed -e 's/\./\\./g' -e 's/-/\\-/g')
           ESCAPED_KSU_VARIANT=$(echo "${{ inputs.kernelsu_variant }} (${{ env.KSUVER }})" | sed -e 's/\./\\./g' -e 's/-/\\-/g' -e 's/(/\\(/g' -e 's/)/\\)/g')
+          ESCAPED_SUSFS_VER=$(echo "${{ env.SUSFS_VERSION }}" | sed -e 's/\./\\./g' -e 's/-/\\-/g' -e 's/(/\\(/g' -e 's/)/\\)/g')
           cat > release.txt << EOF
           **New Build Published\!\!**
           >KernelVer: $ESCAPED_KERNEL_VER
@@ -561,8 +562,8 @@ jobs:
           ```
 
           📝Features:
-          >[\+] SUSFS ඞ ${{ env.SUSFS_VERSION }}
-          >[\+] LZ4 v1.10.0 (Optimization armv8a)
+          >[\+] SUSFS ඞ $ESCAPED_SUSFS_VER
+          >[\+] LZ4 v1\.10\.0 (Optimization armv8a)
           >[\+] TCP Pacing Tweaks
           >[\+] Hibernation (LZ4) Support
           >[\+] BBR Algorithm \+ ECN Support
