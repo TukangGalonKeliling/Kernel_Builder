@@ -563,9 +563,9 @@ jobs:
 
           📝Features:
           >[\+] SUSFS ඞ $ESCAPED_SUSFS_VER
-          >[\+] LZ4 v1\.10\.0 (Optimization armv8a)
+          >[\+] LZ4 v1\.10\.0 \(Optimization armv8a\)
           >[\+] TCP Pacing Tweaks
-          >[\+] Hibernation (LZ4) Support
+          >[\+] Hibernation \(LZ4\) Support
           >[\+] BBR Algorithm \+ ECN Support
           >[\+] TMPFS XATTR \+ POSIX ACL Support
           
