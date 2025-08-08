@@ -544,15 +544,13 @@ jobs:
           ESCAPED_KSU_VARIANT=$(echo "${{ inputs.kernelsu_variant }} (${{ env.KSUVER }})" | sed -e 's/\./\\./g' -e 's/-/\\-/g' -e 's/(/\\(/g' -e 's/)/\\)/g')
           cat > release.txt << EOF
           **New Build Published\!\!**
-          **New Build Published**
-          >👨🏻‍💻 Developer: @hxmn404
-          >⚙️ KernelVer: $ESCAPED_KERNEL_VER
-          >⚙️ DriverKSU: $ESCAPED_KSU_VARIANT
-          >⚓ HookMode: Manual Hook
+          >KernelVer: $ESCAPED_KERNEL_VER
+          >DriverKSU: $ESCAPED_KSU_VARIANT
+          >HookMode: Manual Hook
           EOF
           
           cat >> release.txt << 'EOF'
-          **New Build Published**
+          
           📝 Features:
           ```
           [+] SUSFS ඞ ${{ env.SUSFS_VERSION }}
@@ -562,7 +560,6 @@ jobs:
           [+] BBR Algorithm + ECN Support
           [+] TMPFS XATTR + POSIX ACL Support
           ```
-          
           ⬇ How To Flash:
           >Use flashing software, such as [KernelFlasher](https://github.com/fatalcoder524/KernelFlasher/releases/download/v1.6.0/KernelFlasher_1.6.0.apk) or [HorizonKernelFlasher](https://github.com/libxzr/HorizonKernelFlasher/releases/download/v1.3/app-release.apk) for flashing the kernel \(Give root access to the Application\)
           EOF
